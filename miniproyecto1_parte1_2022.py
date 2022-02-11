@@ -93,6 +93,9 @@ contador = dict()
 for anotacion in datos_test['annotations']:
   categoria = anotacion["category_id"] 
   contador[categoria] = contador.get(categoria,0) + 1
+test_cant_Platelets = contador[1]
+test_cant_RBC = contador[2]
+test_cant_WBC = contador[3]
 print(contador) #anotaciones en cada categoria de test
 
 #cuantas anotaciones hay en total en el json de test
@@ -113,6 +116,9 @@ contador = dict()
 for anotacion in datos_train['annotations']:
   categoria = anotacion["category_id"] 
   contador[categoria] = contador.get(categoria,0) + 1
+train_cant_Platelets = contador[1]
+train_cant_RBC = contador[2]
+train_cant_WBC = contador[3]
 print(contador) #anotaciones en cada categoria de train
 
 #cuantas anotaciones hay en total en el json de test
@@ -133,6 +139,9 @@ contador = dict()
 for anotacion in datos_valid['annotations']:
   categoria = anotacion["category_id"] 
   contador[categoria] = contador.get(categoria,0) + 1
+valid_cant_Platelets = contador[1]
+valid_cant_RBC = contador[2]
+valid_cant_WBC = contador[3]
 print(contador) #anotaciones en cada categoria de valid
 
 #cuantas anotaciones hay en total en el json de test
@@ -153,24 +162,98 @@ print('El promedio de anotaciones por imagen en total es', promedio_anotaciones_
 
 #7.2.3
 
-p_ima_test = imagenes_en_test * 100 / numero_total_imagenes
-p_ima_train = imagenes_en_train * 100 / numero_total_imagenes
-p_ima_valid = imagenes_en_valid * 100 / numero_total_imagenes
+total_celulas_test = test_cant_Platelets + test_cant_RBC + test_cant_WBC
+total_celulas_train = train_cant_Platelets + train_cant_RBC + train_cant_WBC
+total_celulas_valid =  valid_cant_Platelets + valid_cant_RBC + valid_cant_WBC
+total_celulas = total_celulas_test + total_celulas_train + total_celulas_valid
 
-p_ano_test = anotaciones_en_test * 100 / total_anotaciones
-p_ano_train = anotaciones_en_train * 100 / total_anotaciones
-p_ano_valid = anotaciones_en_valid * 100 / total_anotaciones
+#calcula porcentage de un valor a sobre un 100% dado g
+def percent(a, g):
+  ret = a * 100 / g
+  return ret
+
+p_test_P = percent(test_cant_Platelets, total_celulas_test)
+p_test_R = percent(test_cant_RBC, total_celulas_test)
+p_test_W = percent(test_cant_WBC, total_celulas_test)
+p_test_total_P = percent(test_cant_Platelets, total_celulas)
+p_test_total_R = percent(test_cant_RBC, total_celulas)
+p_test_total_W = percent(test_cant_WBC, total_celulas)
+
+p_train_P = percent(train_cant_Platelets, total_celulas_test)
+p_train_R = percent(train_cant_RBC, total_celulas_test)
+p_train_W = percent(train_cant_WBC, total_celulas_test)
+p_train_total_P = percent(train_cant_Platelets, total_celulas)
+p_train_total_R = percent(train_cant_RBC, total_celulas)
+p_train_total_W = percent(train_cant_WBC, total_celulas)
+
+p_valid_P= percent(valid_cant_Platelets, total_celulas_test)
+p_valid_R = percent(valid_cant_RBC, total_celulas_test)
+p_valid_W = percent(valid_cant_WBC, total_celulas_test)
+p_valid_total_P = percent(valid_cant_Platelets, total_celulas)
+p_valid_total_R = percent(valid_cant_RBC, total_celulas)
+p_valid_total_W = percent(valid_cant_WBC, total_celulas)
+
+print(
+  "El total de celulas que hay en el set de test es ", total_celulas_test,"\n"  
+  "La cantidad de plaquetas que hay en el set completo de test es ", test_cant_Platelets,
+  "representando un",p_test_P,"%"," sobre el total de las celulas que hay en test y un ",p_test_total_P,"%",
+  " sobre el total \n",
+  "La cantidad de globulos rojos que hay en el set completo de test es ", test_cant_RBC ,
+  "representando un",p_test_R,"%"," sobre el total de las celulas que hay en test y un ",p_test_total_R,"%",
+  " sobre el total \n",
+  "La cantidad de globulos blancos que hay en el set completo de test es ", test_cant_WBC ,
+  "representando un",p_test_W,"%"," sobre el total de las celulas que hay en test y un ",p_test_total_W,"%",
+  " sobre el total \n \n",
+
+  "El total de celulas que hay en el set de train es ", total_celulas_train,"\n"
+  "La cantidad de plaquetas que hay en el set completo de train es ", train_cant_Platelets,
+  "representando un",p_train_P,"%"," sobre el total de las celulas que hay en train y un ",p_train_total_P,"%",
+  " sobre el total \n",
+  "La cantidad de globulos rojos que hay en el set completo de train es ", train_cant_RBC ,
+  "representando un",p_train_R,"%"," sobre el total de las celulas que hay en train y un ",p_train_total_R,"%",
+  " sobre el total \n",
+  "La cantidad de globulos blancos que hay en el set completo de train es ", train_cant_WBC ,
+  "representando un",p_train_W,"%"," sobre el total de las celulas que hay en train y un ",p_train_total_W,"%",
+  " sobre el total \n \n",
+
+  "El total de celulas que hay en el set de valid es ", total_celulas_valid,"\n"
+  "La cantidad de plaquetas que hay en el set completo de valid es ", valid_cant_Platelets,
+  "representando un",p_valid_P,"%"," sobre el total de las celulas que hay en train y un ",p_valid_total_P,"%",
+  " sobre el total \n",
+  "La cantidad de globulos rojos que hay en el set completo de valid es ", valid_cant_RBC ,
+  "representando un",p_valid_R,"%"," sobre el total de las celulas que hay en train y un ",p_valid_total_R,"%",
+  " sobre el total \n",
+  "La cantidad de globulos blancos que hay en el set completo de valid es ", valid_cant_WBC ,
+  "representando un",p_valid_W,"%"," sobre el total de las celulas que hay en train y un ",p_valid_total_W,"%",
+  " sobre el total \n \n",
+  
+  "El total de celulas que hay en el total de las imagenes (totoal general) es ", total_celulas,"\n \n"
+  
+)
+
+p_ima_test = percent(imagenes_en_test, numero_total_imagenes)
+p_ima_train = percent(imagenes_en_train, numero_total_imagenes)
+p_ima_valid = percent(imagenes_en_valid, numero_total_imagenes)
+
+p_ano_test = percent(anotaciones_en_test, total_anotaciones)
+p_ano_train = percent(anotaciones_en_train, total_anotaciones)
+p_ano_valid = percent(anotaciones_en_valid, total_anotaciones)
 
 print (
-"En las imagenes, \n",
-"El porcentaje de imagenes en test sobre el total es del: ", p_ima_test,"% \n",
-"El porcentaje de imagenes en train sobre el total es del: ", p_ima_train,"% \n",
-"El porcentaje de imagenes en valid sobre el total es del: ", p_ima_valid,"% \n \n",
-"Mientras que en las anotaciones, \n",
-"El porcentaje de anotaciones en test sobre el total es del: ", p_ano_test,"% \n",
-"El porcentaje de anotaciones en train sobre el total es del: ", p_ano_train,"% \n",
-"El porcentaje de anotaciones en valid sobre el total es del: ", p_ano_valid,"%"
+  "Teniendo en cuenta que el total de imagenes es de", numero_total_imagenes, "\n \n",
+
+  "El porcentaje de imagenes en test representa un ", p_ima_test,"%"," sobre el total las imagenes en test. \n",
+  "El porcentaje de imagenes en train representa un ", p_ima_train,"%"," sobre el total las imagenes en train. \n",
+  "El porcentaje de imagenes en valid representa un ", p_ima_valid,"%"," sobre el total las imagenes en valid. \n \n",
+
+  "Teniendo en cuenta que el total de anotaiones es de", total_anotaciones, "\n \n",
+
+  "El porcentaje de anotaciones en test representa un ",   p_ano_test,"%"," sobre el total lasanotaciones en test. \n",
+  "El porcentaje de anotaciones en train representa un ", p_ano_train,"%"," sobre el total las anotaciones en train. \n",
+  "El porcentaje de anotaciones en valid representa un ", p_ano_valid,"%"," sobre el total las anotaciones en valid. "
 )
+
+
 
 #7.3
 
