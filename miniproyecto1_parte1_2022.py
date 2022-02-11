@@ -428,6 +428,7 @@ plt.axis('off')
 # Original
 plt.imshow(gBlanco4, cmap='gray')
   
+plt.savefig('figura 2')
 plt.show()
 
 input("Press Enter to continue...")
