@@ -12,7 +12,7 @@ from skimage import io
 import os
 import json
 import numpy as np
-import sys
+import cv2 as cv
 
 #Se cargan las imagenes desde las carpetas
 fotos_test = []
@@ -29,6 +29,7 @@ fotos_valid = []
 for img in glob.glob(os.path.join('data_mp1','BCCD', 'valid', '*.jpg')):
     io_img = io.imread(img)
     fotos_valid.append(io_img)
+
 
 ####7.2.1
 
@@ -350,22 +351,22 @@ plt.figure(figsize=(13, 10))
 
 plt.subplot(4,4,1)
 plt.axis('off')
-# Original
+plt.title('Imagen original')
 plt.imshow(img, cmap='gray')
 
 plt.subplot(4,4,2)
 plt.axis('off')
-# Original
+plt.title('Anotaciones plaqueta')
 plt.imshow(plaqueta, cmap='gray')
 
 plt.subplot(4,4,3)
 plt.axis('off')
-# Original
+plt.title('Anotaciones glóbulo rojo')
 plt.imshow(gRojo, cmap='gray')
 
 plt.subplot(4,4,4)
 plt.axis('off')
-# Original
+plt.title('Anotaciones glóbulo blanco')
 plt.imshow(gBlanco, cmap='gray')
 
 plt.subplot(4,4,5)
@@ -427,12 +428,11 @@ plt.subplot(4,4,16)
 plt.axis('off')
 # Original
 plt.imshow(gBlanco4, cmap='gray')
-  
-plt.savefig('figura 2')
+
+plt.savefig('figura 2') 
 plt.show()
 
 input("Press Enter to continue...")
-
 
 
 #####7.3.2
@@ -496,10 +496,82 @@ plt.show()
 input("Press Enter to continue...")
 
 
+#Codigo de rotación de imagenes
+img4 = fotos_test[0]    #refrencia [2]
+rows,cols = img.shape[:2]     #refrencia [2]
+# El primer centro de rotación de parámetros, el segundo ángulo de rotación de parámetros, 
+# el tercer parámetro: escala
+M = cv2.getRotationMatrix2D((cols/2,rows/2),45,1)   #refrencia [2]
+# Tercer parámetro: tamaño de imagen transformada
+res = cv2.warpAffine(img4,M,(rows,cols))    #refrencia [2]
 
 
+#Codigo de transmision de imagen (cambio de perspectiva)   #refrencia [2]
+rows,cols = img.shape[:2]    #refrencia [2]
+pts1 = np.float32([[56,65],[238,52],[28,237],[239,240]])     #refrencia [2]
+pts2 = np.float32([[0,0],[200,0],[0,200],[200,200]])     #refrencia [2]
+M = cv2.getPerspectiveTransform(pts1,pts2)     #refrencia [2]
+res1 = cv2.warpPerspective(img4,M,(200,200))    #refrencia [2]
+
+
+#RCodigo de resize
+#Codigo ampliación y reducción de la imagen
+# Interpolación: interpolación
+# Ninguno debe ser la posición del tamaño de la imagen, y la relación de zoom se establece más tarde,
+# Todos simplemente no lo necesitan
+# Especifique directamente el tamaño del zoom, esta vez no requiere un factor de zoom
+height,width = img.shape[:2]    #refrencia [2]
+res2 = cv2.resize(img4,(2*width,2*height),interpolation=cv2.INTER_CUBIC)   #refrencia [2]    #refrencia [2]
+
+img4_gris = color.reg2gray(img4)    #Imagen a gris
+
+
+  
+
+plt.figure(figsize=(13, 10))
+
+plt.subplot(4,4,1)
+plt.title('Imagen original')
+plt.imshow(img4)
+
+plt.subplot(4,4,2)
+plt.axis('off')
+plt.title('Rotación')
+plt.imshow(res)
+
+plt.subplot(4,4,3)
+plt.axis('off')
+plt.title('Transmision de imagen')
+plt.imshow(res1)
+
+plt.subplot(4,4,4)
+plt.title('Ampliación de la imagen')
+plt.imshow(res2)
+
+plt.subplot(4,4,5)
+plt.axis('off')
+# Original
+plt.imshow(img4_gris, cmap='gray')
+
+plt.subplot(4,4,6)
+plt.axis('off')
+# Original
+plt.imshow(plaqueta2, cmap='gray')
+
+plt.subplot(4,4,7)
+plt.axis('off')
+# Original
+plt.imshow(gRojo2, cmap='gray')
+
+plt.savefig('figura 2') 
+plt.show()
+
+input("Press Enter to continue...")
 
 #Referencias
 
 #[1]"python: ¿solo quieres mostrar el canal rojo en opencv? - programador clic", Programmerclick.com.
 #[Online]. Available: https://programmerclick.com/article/36551588535/. [Accessed: 10- Feb- 2022].
+#[2]"python-opencv (transformación geométrica): traslación, ampliación y reducción, rotación, afín, 
+# perspectiva - programador clic", Programmerclick.com. [Online]. Available:
+#  https://programmerclick.com/article/2270330992/. [Accessed: 11- Feb- 2022].
