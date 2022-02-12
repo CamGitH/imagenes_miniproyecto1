@@ -365,7 +365,7 @@ res1 = cv2.warpPerspective(img4,M,(200,200))    #refrencia [2]
 # Especifique directamente el tamaño del zoom, esta vez no requiere un factor de zoom
 height,width = img.shape[:2]    #refrencia [2]
 res2 = cv2.resize(img4,(2*width,2*height),interpolation=cv2.INTER_CUBIC)   #refrencia [2]    #refrencia [2]
-img4_gris = color.reg2gray(img4)    #Imagen a gris
+img4_gris = color.rgb2gray(img4)    #Imagen a gris
 plt.figure(figsize=(13, 10))
 plt.subplot(4,4,1)
 plt.title('Imagen original')
