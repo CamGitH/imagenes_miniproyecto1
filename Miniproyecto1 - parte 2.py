@@ -218,14 +218,15 @@ def detections_201814033_201732760(conf_thresh, jaccard_thresh, annot_file, pred
         if (r == 0):
             TP = TP +1
         #si es un falso positivo xxxxxx
-        if (xxxxxx):
+        elif (r < 0):
             FP = FP +1
-        #si es un verdadero negativo xxxxxx
-        if (xxxxxxx):
-            TN = TN +1
-        #si es un falso negativo xxxxxx
-        if (xxxxxx):
+         #si es un falso negativo 
+        elif (r>0):
             FN = FN +1
+        #si es un verdadero negativo 
+        else:
+            TN = TN +1
+            
        
         i= i+1    
 
