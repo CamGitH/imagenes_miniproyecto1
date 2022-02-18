@@ -176,3 +176,67 @@ plt.imshow(circulos3_mas_deteccion, cmap = 'gray')
 
 plt.savefig('figura 1')
 plt.show()
+
+
+#8.3
+
+#pred_file = './data_mp1/dummy_predictions.json'
+#FALTA direccion archivo de prediciones xxxxxx
+
+def detections_201814033_201732760(conf_thresh, jaccard_thresh, annot_file, pred_file):
+    
+    #lee archivo de predicciones 
+    with open (pred_file) as j:
+        pred = json.load(j)  
+    #lee archivo de anotaciones
+    with open (annot_file) as j:
+        annot = json.load(j)  
+
+    #Guarda todas las predicciones en 'pre'
+    for predicion in pred:
+       pre = predicion["bbox"] 
+    #Guarda todas las anotaciones en 'ano'
+    for antotacion in annot:
+        ano = antotacion["bbox"] 
+
+    #"Cantidad de verdaderos positivos."
+    TP = 0
+    #"Cantidad de falsos positivos."
+    FP = 0
+    #"Cantidad de verdaderos negativos."
+    TN = 0
+    #"Cantidad de falsos negativos." 
+    FN = 0    
+        
+    #teniendo en cuenta las anotaciones y las predicciones deberian estar en el mismo orden
+    #y deberian tener la misma cantidad de anotaciones y de predicciones
+    i = 0 
+    for each in ano:
+        #no encontre la formula pero aca se usaria lo de Jccard y conf thresh xxxxxx
+        r = each - pre[i]
+        #si es un verdadero positivo la resta deberia dar 0 
+        if (r == 0):
+            TP = TP +1
+        #si es un falso positivo xxxxxx
+        if (xxxxxx):
+            FP = FP +1
+        #si es un verdadero negativo xxxxxx
+        if (xxxxxxx):
+            TN = TN +1
+        #si es un falso negativo xxxxxx
+        if (xxxxxx):
+            FN = FN +1
+       
+        i= i+1    
+
+    print("Cantidad de verdaderos positivos: ", TP, "\n",    "Cantidad de falsos positivos: ", FP, "\n", "Cantidad de verdaderos negativos: ", TN, "\n",    "CCantidad de falsos negativos: ", FN, "\n")
+
+
+#8.4
+
+def PRCurve_201814033_201732760(jaccard_thresh, annot_file, pred_file, save_route):
+
+    print("El área por debajo de la curva de precisión y cobertura")
+
+
+
