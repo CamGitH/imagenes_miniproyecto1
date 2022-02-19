@@ -186,15 +186,16 @@ plt.show()
 def detections_201814033_201732760(conf_thresh, jaccard_thresh, annot_file, pred_file):
     
     #lee archivo de predicciones 
-    with open (pred_file) as j:
-        pred = json.load(j)  
+    #with open (pred_file) as j:
+    #    pred = json.load(j)  
     #lee archivo de anotaciones
     with open (annot_file) as j:
         annot = json.load(j)  
 
     #Guarda todas las predicciones en 'pre'
-    for predicion in pred:
-       pre = predicion["bbox"] 
+    #for predicion in pred:
+    #   pre = predicion["bbox"] 
+
     #Guarda todas las anotaciones en 'ano'
     for antotacion in annot:
         ano = antotacion["bbox"] 
@@ -212,8 +213,8 @@ def detections_201814033_201732760(conf_thresh, jaccard_thresh, annot_file, pred
     #y deberian tener la misma cantidad de anotaciones y de predicciones
     i = 0 
     for each in ano:
-        #no encontre la formula pero aca se usaria lo de Jccard y conf thresh xxxxxx
-        r = each - pre[i]
+        
+        r = each - pred_file[i]
         #si es un verdadero positivo la resta deberia dar 0 
         if (r == 0):
             TP = TP +1
